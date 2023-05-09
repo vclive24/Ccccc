@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>URL-TQR - URL Shortener</title>
+  <style>
+    body {
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <h1>URL-TQR - URL Shortener</h1>
+  <input type="text" id="long-url" placeholder="Enter long URL">
+  <button onclick="generateShortUrl()">Shorten</button>
+
+  <script>
+    async function generateShortUrl() {
+      const longUrl = document.getElementById("long-url").value;
+      const apiEndpoint = "https://cuty.io/api/v1/shorten";
+
+      const response = await fetch(apiEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ longUrl })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const shortUrl = data.shortUrl;
+        // Perform the desired action with the generated shortUrl
+        console.log(shortUrl);
+        
+        // Generate the redirect URL using the shortUrl
+        const event = "comments";
+        const redirToken = "QUFFLUhqbDdmVkxaTEQ3aWlVTcVJUNDhGb2xHUkotWVg4Z3xBQ3Jtc0trVWhSUUhHS05DUF85Ql9td2lOMmlTNkEzWmFON09NTnA1OHZVbG5Sd0hPLVpwSi1ubEZJdzFNWVVyQTlibW9wZFp5N1lUdWdmd25XVGc0bms4dF9yZXBTVmd5aUhmVHNNdzU5cjFGb0VjMFQtVHlLRQ&q";
+        const redirectUrl = "https://m.youtube.com/redirect?q=" + encodeURIComponent(shortUrl) + "&event=" + event + "&redir_token=" + redirToken + "&html_redirect=1";
+        
+        // Perform the desired action with the generated redirectUrl
+        console.log(redirectUrl);
+      } else {
+        alert("An error occurred while shortening the URL. Please try again.");
+      }
+    }
+  </script>
+</body>
+</html>
